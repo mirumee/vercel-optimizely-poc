@@ -3,6 +3,10 @@
 This example shows how to use Optimizely to conduct experiments using Edge Middleware.
 Based on vercel example, more details can be found [here](https://github.com/vercel/examples/tree/main/edge-middleware/feature-flag-optimizely)
 
+Optimizely datafile may be pulled in two ways:
+1. At build time. Check the scripts folder and `withOptimize` wrapper in next.config
+2. From [edge config](https://vercel.com/docs/concepts/edge-network/edge-config).
+
 ## Demo
 
 https://feature-flag-optimizely.vercel.app
