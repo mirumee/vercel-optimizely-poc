@@ -2,6 +2,7 @@
 import { createInstance } from '@optimizely/optimizely-sdk'
 import { NextRequest, NextFetchEvent, NextResponse } from 'next/server'
 import { get } from '@vercel/edge-config'
+import { serialize } from 'cookie';
 
 // Create Optimizely instance using datafile downloaded at build time.
 // See `withOptimizely` in next config.
@@ -18,8 +19,6 @@ export const config = {
 export const experiment_key = 'new_page_layout'
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  console.log('--------------------------------------------------------------------------------')
-
   // Fetch user Id from the cookie if available so a returning user from same browser session always sees the same variation.
   const userId = req.cookies.get(COOKIE_NAME)?.value || crypto.randomUUID()
 
@@ -31,6 +30,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     datafile: optimizelyDatafile,
     eventFlushInterval: 1000,
     clientEngine: VERCEL_EDGE_CLIENT_ENGINE,
+    logLevel: process.env.OPTIMIZELY_LOG_LEVEL,
     eventBatchSize: 10,
     eventDispatcher: {
       dispatchEvent: ({ url, params }: { url: string; params: any }) => {
@@ -68,11 +68,14 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     req.cookies.set(COOKIE_NAME, userId)
   }
 
-  response.cookies.set(COOKIE_NAME, userId)
-  response.cookies.set(experiment_key, decision.enabled.toString())
-
-  console.log('--------------------------------------------------------------------------------')
-
+  console.log( serialize(experiment_key, decision.enabled.toString()))
+  // Using `response.cookies.set` multiple times on Vercel, produces a header like:
+  // 1: 'key=value'
+  // 2: 'key=value'
+  response.headers.set('set-cookie',[
+    serialize(COOKIE_NAME, userId),
+    serialize(experiment_key, decision.enabled.toString())
+  ].join(';'))
 
   return response
 }
