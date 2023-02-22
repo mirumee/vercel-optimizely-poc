@@ -9,7 +9,7 @@ Optimizely datafile may be pulled in two ways:
 
 ## Demo
 
-https://feature-flag-optimizely.vercel.app
+https://vercel-optimizely-poc.vercel.app
 
 ```
 OPTIMIZELY_SDK_KEY=
