@@ -15,6 +15,11 @@ export async function getServerSideProps({ res, req }) {
   cookies = cookies.map(parseCookie)
   cookies = cookies.reduce((acc, obj) => ({ ...acc, ...obj }), {})
 
+res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=500, stale-while-revalidate=60'
+)
+
   return {
     props: { optimizely: cookies }, // will be passed to the page component as props
   }
