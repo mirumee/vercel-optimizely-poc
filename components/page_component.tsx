@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 export default function PageComponent({
   title,
   optimizely,
+  datetime = "N/A",
 }: {
   optimizely: Record<string, string>;
   title: string;
+  datetime?: string;
 }) {
   // Pass the cookie from the SSR.
+  console.log({ optimizely });
   const [cookies, setCookies] = useState<any>(optimizely);
 
   // Or read the cookie on the client.
@@ -41,6 +44,8 @@ export default function PageComponent({
           Visitor id: <b>{cookies.optimizely_visitor_id}</b>
           <br />
           New layout enabled: <b>{cookies.new_page_layout}</b>
+          <br />
+          Last sync: <b>{datetime}</b>
           <br />
           <br />
           <b>How it works:</b>

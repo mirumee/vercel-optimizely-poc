@@ -1,5 +1,6 @@
 import PageComponent from "../components/page_component";
 import { GetServerSideProps } from "next";
+import { getCurrentDateTime } from "../helpers";
 
 const parseCookie = (str) =>
   str
@@ -17,21 +18,22 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
   let cookies = res.getHeader("set-cookie") ?? req.headers["set-cookie"] ?? [];
   cookies = cookies.map(parseCookie);
   cookies = cookies.reduce((acc, obj) => ({ ...acc, ...obj }), {});
-
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=500, stale-while-revalidate=60"
-  );
+  const datetime = getCurrentDateTime();
+  // res.setHeader(
+  //   "Cache-Control",
+  //   "public, s-maxage=500, stale-while-revalidate=60"
+  // );
 
   return {
-    props: { optimizely: cookies }, // will be passed to the page component as props
+    props: { optimizely: cookies, datetime }, // will be passed to the page component as props
   };
 };
 
-const Home = ({ optimizely }) => {
+const Home = ({ optimizely, datetime }) => {
   return (
     <PageComponent
       optimizely={optimizely}
+      datetime={datetime}
       title="Optimizely feature flags demo"
     />
   );
