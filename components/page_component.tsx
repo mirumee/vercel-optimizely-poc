@@ -1,17 +1,17 @@
-import { Page, Text, List, Link } from '@vercel/examples-ui'
-import Image from 'next/image'
-import cookie from 'cookie'
-import { useEffect, useState } from 'react'
+import { Page, Text, List, Link } from "@vercel/examples-ui";
+import Image from "next/image";
+import cookie from "cookie";
+import { useEffect, useState } from "react";
 
 export default function PageComponent({
   title,
   optimizely,
 }: {
-  optimizely: Record<string, string>
-  title: string
+  optimizely: Record<string, string>;
+  title: string;
 }) {
   // Pass the cookie from the SSR.
-  const [cookies, setCookies] = useState<any>(optimizely)
+  const [cookies, setCookies] = useState<any>(optimizely);
 
   // Or read the cookie on the client.
   // const [cookies, setCookies] = useState<any>({})
@@ -19,7 +19,7 @@ export default function PageComponent({
   //   setCookies(cookie.parse(document.cookie))
   // }, [])
 
-  const new_layout = cookies.new_page_layout === 'true'
+  const new_layout = cookies.new_page_layout === "true";
   const image = (
     <Image
       src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg"
@@ -27,14 +27,15 @@ export default function PageComponent({
       width="1500"
       height="500"
       priority
+      unoptimized
     />
-  )
+  );
   return (
     <Page>
       <Text variant="h2">{title}</Text>
       {!new_layout && image}
       <section style={{ marginTop: 30 }}>
-        <Text style={{ fontSize: 'small' }}>
+        <Text style={{ fontSize: "small" }}>
           Visitor id: <b>{cookies.optimizely_visitor_id}</b>
           <br />
           New layout enabled: <b>{cookies.new_page_layout}</b>
@@ -42,11 +43,11 @@ export default function PageComponent({
           <br />
           <b>How it works:</b>
           <br />
-          This example displays two variants of page layouts to the users.
-          It uses Optimizely feature flag in the Vercel Middleware to
-          determine the variant that should be shown. A
-          unique visitor id is being generated, stored in the cookie and reused
-          so that the decisions stick for the same browser session.
+          This example displays two variants of page layouts to the users. It
+          uses Optimizely feature flag in the Vercel Middleware to determine the
+          variant that should be shown. A unique visitor id is being generated,
+          stored in the cookie and reused so that the decisions stick for the
+          same browser session.
           <br />
           <br />
           This example uses Optimizely&nbsp;
@@ -55,7 +56,7 @@ export default function PageComponent({
             target="_blank"
           >
             Javascript SDK
-          </Link>{' '}
+          </Link>{" "}
           inside Vercel Middleware to provide a starting point for you to
           implement experimentation and feature flagging for your experiences at
           the edge. For a guide to getting started with our platform more
@@ -96,5 +97,5 @@ export default function PageComponent({
         </Text>
       </section>
     </Page>
-  )
+  );
 }
