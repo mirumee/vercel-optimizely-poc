@@ -22,11 +22,13 @@ export default function PageComponent({
   const new_layout = cookies.new_page_layout === "true";
   const image = (
     <Image
-      src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg"
+      src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?q=75&w=1500&h=500"
+      // src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg"
       alt=""
       width="1500"
       height="500"
       priority
+      // Image optimization seems to break when proxying through cloudfront.
       unoptimized
     />
   );

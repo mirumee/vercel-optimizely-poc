@@ -9,4 +9,5 @@ module.exports = withOptimizely({
   typescript: {
     ignoreBuildErrors: true,
   },
+  trailingSlash: true,
 });
