@@ -17,7 +17,7 @@ export const extractFromCookie = (res, req) => {
   return { optimizely: cookies, datetime };
 };
 
-export const cacheRequest = (res) => {
+export const cacheResponse = (res) => {
   res.setHeader(
     "Cache-Control",
     "public, s-maxage=30, stale-while-revalidate=10"

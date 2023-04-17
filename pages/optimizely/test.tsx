@@ -4,10 +4,10 @@ import { EXPERIMENT_KEY, VISITOR_KEY } from "../../middleware";
 import { getCurrentDateTime } from "../../helpers";
 import { useState } from "react";
 import { GetServerSideProps } from "next";
-import { cacheRequest, extractFromCookie } from "../../utils";
+import { cacheResponse, extractFromCookie } from "../../utils";
 
 export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
-  cacheRequest(res);
+  cacheResponse(res);
   return {
     props: {},
   };
@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
 export default function View() {
   const [datetime] = useState(getCurrentDateTime());
   const optimizely = {
-    new_page_layout: Cookies.get(EXPERIMENT_KEY),
+    new_page_layout: Cookies.get(EXPERIMENT_KEY) || "false",
     optimizely_visitor_id: Cookies.get(VISITOR_KEY),
   };
 

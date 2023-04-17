@@ -12,7 +12,13 @@ const VERCEL_EDGE_CLIENT_ENGINE = "javascript-sdk/vercel-edge";
 export const VISITOR_KEY = "optimizely_visitor_id";
 
 export const config = {
-  matcher: ["/", "/feature-flags", "/optimizely/test", "/optimizely/set-test"],
+  matcher: [
+    "/",
+    "/feature-flags",
+    "/optimizely/test",
+    "/optimizely/test/",
+    "/optimizely/set-test",
+  ],
   runtime: "experimental-edge",
 };
 
@@ -80,11 +86,11 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     console.log(decision.enabled);
     console.log("-------------------------------------");
     if (decision.enabled) {
-      response = NextResponse.redirect(
+      response = NextResponse.rewrite(
         new URL("/optimizely/set-test/b/", req.nextUrl)
       );
     } else {
-      response = NextResponse.redirect(
+      response = NextResponse.rewrite(
         new URL("/optimizely/set-test/a/", req.nextUrl)
       );
     }
