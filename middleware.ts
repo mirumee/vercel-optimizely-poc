@@ -9,18 +9,18 @@ import { serialize } from "cookie";
 // import optimizelyDatafile from './lib/optimizely/datafile.json'
 
 const VERCEL_EDGE_CLIENT_ENGINE = "javascript-sdk/vercel-edge";
-const COOKIE_NAME = "optimizely_visitor_id";
+export const VISITOR_KEY = "optimizely_visitor_id";
 
 export const config = {
-  matcher: ["/", "/feature-flags"],
+  matcher: ["/", "/feature-flags", "/optimizely/test", "/optimizely/set-test"],
   runtime: "experimental-edge",
 };
 
-export const experiment_key = "new_page_layout";
+export const EXPERIMENT_KEY = "new_page_layout";
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   // Fetch user Id from the cookie if available so a returning user from same browser session always sees the same variation.
-  const userId = req.cookies.get(COOKIE_NAME)?.value || crypto.randomUUID();
+  const userId = req.cookies.get(VISITOR_KEY)?.value || crypto.randomUUID();
 
   // Create Optimizely instance using edge config. Initial config must exist.
   // https://vercel.com/docs/concepts/edge-network/edge-config/edge-config-api
@@ -55,30 +55,49 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const userContext = instance!.createUserContext(userId.toString());
 
   // Decide variation for the flag.
-  const decision = userContext!.decide(experiment_key);
+  const decision = userContext!.decide(EXPERIMENT_KEY);
 
   // Fetch datafile revision for debugging.
   const revision = instance!.getOptimizelyConfig()!.revision;
   console.log(`[OPTIMIZELY] Revision: ${revision}`);
 
-  const response = NextResponse.next();
+  let response = NextResponse.next();
 
-  if (!req.cookies.has(COOKIE_NAME)) {
+  if (!req.cookies.has(VISITOR_KEY)) {
     // Saving userId in the cookie so that the decision sticks for subsequent visits.
-    req.cookies.set(COOKIE_NAME, userId);
+    req.cookies.set(VISITOR_KEY, userId);
   }
-
-  console.log(serialize(experiment_key, decision.enabled.toString()));
+  if (!req.cookies.has(EXPERIMENT_KEY)) {
+    req.cookies.set(EXPERIMENT_KEY, decision.enabled.toString());
+  }
+  console.log(serialize(EXPERIMENT_KEY, decision.enabled.toString()));
   // Using `response.cookies.set` multiple times on Vercel, produces a header like:
   // 1: 'key=value'
   // 2: 'key=value'
+
+  if ("/optimizely/set-test/" === req.nextUrl.pathname) {
+    console.log("-------------------------------------");
+    console.log(decision.enabled);
+    console.log("-------------------------------------");
+    if (decision.enabled) {
+      response = NextResponse.redirect(
+        new URL("/optimizely/set-test/b/", req.nextUrl)
+      );
+    } else {
+      response = NextResponse.redirect(
+        new URL("/optimizely/set-test/a/", req.nextUrl)
+      );
+    }
+  }
+
   response.headers.set(
     "set-cookie",
     [
-      serialize(COOKIE_NAME, userId),
-      serialize(experiment_key, decision.enabled.toString()),
+      serialize(VISITOR_KEY, userId),
+      serialize(EXPERIMENT_KEY, decision.enabled.toString()),
     ].join(";")
   );
+  console.log(response.headers);
 
   return response;
 }
