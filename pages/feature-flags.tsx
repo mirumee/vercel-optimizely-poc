@@ -19,10 +19,13 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
   cookies = cookies.map(parseCookie);
   cookies = cookies.reduce((acc, obj) => ({ ...acc, ...obj }), {});
   const datetime = getCurrentDateTime();
-  // res.setHeader(
-  //   "Cache-Control",
-  //   "public, s-maxage=500, stale-while-revalidate=60"
-  // );
+  console.log("---------------------------------------------------");
+  console.log("getServerSideProps");
+  console.log("---------------------------------------------------");
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=500, stale-while-revalidate=60"
+  );
 
   return {
     props: { optimizely: cookies, datetime }, // will be passed to the page component as props
