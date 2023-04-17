@@ -3,7 +3,15 @@ import Cookies from "js-cookie";
 import { EXPERIMENT_KEY, VISITOR_KEY } from "../../middleware";
 import { getCurrentDateTime } from "../../helpers";
 import { useState } from "react";
+import { GetServerSideProps } from "next";
+import { cacheRequest, extractFromCookie } from "../../utils";
 
+export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
+  cacheRequest(res);
+  return {
+    props: {},
+  };
+};
 export default function View() {
   const [datetime] = useState(getCurrentDateTime());
   const optimizely = {

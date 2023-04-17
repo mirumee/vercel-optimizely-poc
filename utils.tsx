@@ -16,3 +16,10 @@ export const extractFromCookie = (res, req) => {
   const datetime = getCurrentDateTime();
   return { optimizely: cookies, datetime };
 };
+
+export const cacheRequest = (res) => {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=30, stale-while-revalidate=10"
+  );
+};

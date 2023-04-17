@@ -65,7 +65,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
   if (!req.cookies.has(VISITOR_KEY)) {
     // Saving userId in the cookie so that the decision sticks for subsequent visits.
-    req.cookies.set(VISITOR_KEY, userId);
+    // req.cookies.set(VISITOR_KEY, userId);
   }
   if (!req.cookies.has(EXPERIMENT_KEY)) {
     req.cookies.set(EXPERIMENT_KEY, decision.enabled.toString());
@@ -97,7 +97,8 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
       serialize(EXPERIMENT_KEY, decision.enabled.toString()),
     ].join(";")
   );
-  console.log(response.headers);
+  response.cookies.set(EXPERIMENT_KEY, decision.enabled.toString());
+  response.cookies.set(VISITOR_KEY, userId);
 
   return response;
 }

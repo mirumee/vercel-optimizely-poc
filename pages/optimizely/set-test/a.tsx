@@ -1,8 +1,9 @@
 import { GetServerSideProps } from "next";
-import { extractFromCookie } from "../../../utils";
+import { cacheRequest, extractFromCookie } from "../../../utils";
 import PageComponent from "../../../components/page_component";
 
 export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
+  cacheRequest(req);
   return {
     props: extractFromCookie(res, req),
   };
