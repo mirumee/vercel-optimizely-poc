@@ -19,6 +19,7 @@
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@types/akamai-edgeworkers": "^1.1.8",
     "@types/node": "16.11.11",
     "@types/react": "latest",
     "@vercel/edge-config": "^0.1.1",

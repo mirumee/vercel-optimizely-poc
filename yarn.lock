@@ -1631,6 +1631,11 @@
   dependencies:
     "@types/estree" "*"
 
+"@types/akamai-edgeworkers@^1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@types/akamai-edgeworkers/-/akamai-edgeworkers-1.1.8.tgz#90a54a0535516f139e1f040eb6d87ca9d557a839"
+  integrity sha512-+uRBTAn15rVCrxDfaunJSM353s9c0AA8rkeCqkzoOgkM0u06olfqpd3yzqbAEG6HbZZ9eWdhe2Sa/tBJeuwySQ==
+
 "@types/cacheable-request@^6.0.1":
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@types/cacheable-request/-/cacheable-request-6.0.3.tgz#a430b3260466ca7b5ca5bfd735693b36e7a9d183"

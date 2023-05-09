@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 
 export default function PageComponent({
   title,
-  optimizely,
+  optimizely = {},
   datetime = "N/A",
 }: {
-  optimizely: Record<string, string>;
+  optimizely?: Record<string, string>;
   title: string;
   datetime?: string;
 }) {

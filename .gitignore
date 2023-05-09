@@ -38,3 +38,5 @@ yarn-error.log*
 
 # optimizely
 lib/optimizely/datafile.json
+
+*.tgz

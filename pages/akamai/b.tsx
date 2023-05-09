@@ -1,9 +1,8 @@
 import { GetServerSideProps } from "next";
-
+import { cacheResponse, extractFromCookie } from "../../utils";
+import PageComponent from "../../components/page_component";
+import { VISITOR_KEY } from "../../middleware";
 import Cookies from "js-cookie";
-import { cacheResponse, extractFromCookie } from "../../../utils";
-import PageComponent from "../../../components/page_component";
-import { VISITOR_KEY } from "../../../middleware";
 
 export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
   cacheResponse(res);
