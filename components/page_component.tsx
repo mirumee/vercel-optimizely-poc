@@ -1,32 +1,33 @@
-import { Page, Text, List, Link } from "@vercel/examples-ui";
+import { Page, Text, Link } from "@vercel/examples-ui";
 import Image from "next/image";
-import cookie from "cookie";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+type ExperimentData = {
+  optimizely_visitor_id: string;
+  new_page_layout: string;
+};
 
 export default function PageComponent({
   title,
-  optimizely = {},
+  optimizely,
   datetime = "N/A",
+  loading = false,
 }: {
-  optimizely?: Record<string, string>;
+  optimizely?: ExperimentData;
   title: string;
   datetime?: string;
+  loading?: boolean;
 }) {
   // Pass the cookie from the SSR.
   console.log({ optimizely });
-  const [cookies, setCookies] = useState<any>(optimizely);
+  const [cookies, setCookies] = useState<ExperimentData | undefined>(
+    optimizely
+  );
 
-  // Or read the cookie on the client.
-  // const [cookies, setCookies] = useState<any>({})
-  // useEffect(() => {
-  //   setCookies(cookie.parse(document.cookie))
-  // }, [])
-
-  const new_layout = cookies.new_page_layout === "true";
+  const new_layout = cookies?.new_page_layout === "true";
   const image = (
     <Image
       src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?q=75&w=1500&h=500"
-      // src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg"
       alt=""
       width="1500"
       height="500"
@@ -35,17 +36,33 @@ export default function PageComponent({
       unoptimized
     />
   );
+
   return (
     <Page>
-      <Text variant="h2">{title}</Text>
-      {!new_layout && image}
+      <Text style={{ textAlign: "center" }} variant="h2">
+        {title}
+      </Text>
+      <br />
+
+      {loading && (
+        <Text style={{ textAlign: "center", marginTop: 50 }} variant="h2">
+          Loading...
+        </Text>
+      )}
+
+      {!loading && !new_layout && image}
+
       <section style={{ marginTop: 30 }}>
         <Text style={{ fontSize: "small" }}>
-          Visitor id: <b>{cookies.optimizely_visitor_id}</b>
-          <br />
-          New layout enabled: <b>{cookies.new_page_layout}</b>
-          <br />
-          Last sync: <b>{datetime}</b>
+          {!loading && (
+            <>
+              Visitor id: <b>{cookies?.optimizely_visitor_id}</b>
+              <br />
+              New layout enabled: <b>{cookies?.new_page_layout}</b>
+              <br />
+              Last sync: <b>{datetime}</b>
+            </>
+          )}
           <br />
           <br />
           <b>How it works:</b>

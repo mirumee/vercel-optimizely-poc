@@ -1,12 +1,26 @@
 {
-  "compilerOptions": {
-    "module": "es2022",
-    "target": "es2022",
-    "exclude": ["node_modules"],
-    "moduleResolution": "node",
-     "noImplicitAny": false,
-    "outDir": "built",
-    "rootDir": ".",
-    "forceConsistentCasingInFileNames": true
-  },
-}
+    "compilerOptions": {
+      "module": "ES2020",
+      "target": "ES2020",
+      "sourceMap": true,
+      "strict": false,
+      "lib": ["es2020", "WebWorker"],
+      "outDir": "./out",
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "declaration": false,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "typeRoots": [
+        "./node_modules/@types",
+        "./types"
+      ],
+      "types": ["@types/akamai-edgeworkers", "@types/node"]
+    },
+    "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx", "../common.ts"],
+    "exclude": [
+      "node_modules"
+    ]
+  }
+
+

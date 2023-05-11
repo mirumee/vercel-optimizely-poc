@@ -1,9 +1,7 @@
 import { GetServerSideProps } from "next";
 
-import Cookies from "js-cookie";
-import { cacheResponse, extractFromCookie } from "../../../utils";
-import PageComponent from "../../../components/page_component";
-import { VISITOR_KEY } from "../../../middleware";
+import { cacheResponse, extractFromCookie } from "../../utils";
+import PageComponent from "../../components/page_component";
 
 export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
   cacheResponse(res);
@@ -15,10 +13,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
 export default function View({ optimizely, datetime }) {
   return (
     <PageComponent
-      optimizely={{
-        optimizely_visitor_id: Cookies.get(VISITOR_KEY),
-        new_page_layout: "false",
-      }}
+      optimizely={optimizely}
       datetime={datetime}
       title="Optimizely feature flags demo. B"
     />

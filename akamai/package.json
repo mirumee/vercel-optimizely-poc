@@ -1,0 +1,26 @@
+{
+  "name": "@optimziely/akamai-edgeworker-starter-kit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist; node bump-version.js; npx webpack; cd out && tar -czvf bundle.tgz bundle.json main.js"
+  },
+  "author": "developer@mirumee.com",
+  "license": "ISC",
+  "dependencies": {
+    "@optimizely/optimizely-sdk": "^4.9.1",
+    "@types/dotenv": "^8.2.0",
+    "dotenv-webpack": "^8.0.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/akamai-edgeworkers": "^1.0.6",
+    "@types/node": "^20.1.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.1.1"
+  }
+}
