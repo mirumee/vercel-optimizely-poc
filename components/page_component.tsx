@@ -1,6 +1,7 @@
 import { Page, Text, Link } from "@vercel/examples-ui";
 import Image from "next/image";
 import { useState } from "react";
+import watch from "../public/watch.webp";
 
 type ExperimentData = {
   optimizely_visitor_id: string;
@@ -27,13 +28,14 @@ export default function PageComponent({
   const new_layout = cookies?.new_page_layout === "true";
   const image = (
     <Image
-      src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?q=75&w=1500&h=500"
+      src={watch}
       alt=""
-      width="1500"
-      height="500"
+      width="1080"
+      height="1080"
       priority
+      loading="eager"
       // Image optimization seems to break when proxying through cloudfront.
-      unoptimized
+      // unoptimized
     />
   );
 
