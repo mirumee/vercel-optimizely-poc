@@ -18,8 +18,8 @@ export const extractFromCookie = (res, req) => {
 };
 
 export const cacheResponse = (res) => {
-  // res.setHeader(
-  //   "Cache-Control",
-  //   "public, s-maxage=30, stale-while-revalidate=10"
-  // );
+  res.setHeader(
+    "Cache-Control",
+    "public, maxage=0, s-maxage=60, stale-while-revalidate=15"
+  );
 };

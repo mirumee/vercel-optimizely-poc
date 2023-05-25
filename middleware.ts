@@ -86,13 +86,13 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   );
 
   // Set cookie approach
-  // response.headers.set(
-  //   "set-cookie",
-  //   [
-  //     serialize(OPTIMIZELY_VISITOR_KEY, userId),
-  //     serialize(EXPERIMENT_KEY, decision.enabled.toString()),
-  //   ].join(";")
-  // );
+  response.headers.set(
+    "set-cookie",
+    [
+      serialize(OPTIMIZELY_VISITOR_KEY, userId),
+      serialize(EXPERIMENT_KEY, decision.enabled.toString()),
+    ].join(";")
+  );
   // response.cookies.set(EXPERIMENT_KEY, decision.enabled.toString());
   // response.cookies.set(OPTIMIZELY_VISITOR_KEY, userId);
 

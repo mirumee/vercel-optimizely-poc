@@ -85,5 +85,10 @@ const Decision = ({
     { overrideUserId: userId }
   );
 
-  return <>{children(clientReady ? decision.enabled : false)}</>;
+  if (!clientReady) {
+    return <>Loading... client not ready</>;
+  }
+
+  console.log({ decision });
+  return <>{children(decision.enabled)}</>;
 };

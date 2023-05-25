@@ -7241,10 +7241,6 @@ async function onClientResponse(request, response) {
             log__WEBPACK_IMPORTED_MODULE_0__.logger.log(`[optimizely] Optimizely Logx Event dispatched. Response status code: ${eventResponseStatus}`);
         }
     }
-    // const cookie = new SetCookie({
-    //   name: OPTIMIZELY_VISITOR_KEY,
-    //   value: userId,
-    // });
     const cookie = new cookies__WEBPACK_IMPORTED_MODULE_1__.Cookies();
     cookie.add(_common__WEBPACK_IMPORTED_MODULE_4__.OPTIMIZELY_VISITOR_KEY, userId);
     cookie.add(_common__WEBPACK_IMPORTED_MODULE_4__.EXPERIMENT_EXPERIMENT_KEY, decision);

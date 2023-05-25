@@ -1,6 +1,6 @@
 import { Page, Text, Link } from "@vercel/examples-ui";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import watch from "../public/watch.webp";
 
 type ExperimentData = {
@@ -38,6 +38,10 @@ export default function PageComponent({
       // unoptimized
     />
   );
+
+  useEffect(() => {
+    setCookies(cookies);
+  }, [cookies]);
 
   return (
     <Page>
