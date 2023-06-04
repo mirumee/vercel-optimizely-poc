@@ -3,8 +3,8 @@ const fileName = "./bundle.json";
 const bundle = require(fileName);
 
 const newVersion = Number(
-  // parseFloat(bundle["edgeworker-version"]) + 0.1
-  parseFloat(bundle["edgeworker-version"])
+  parseFloat(bundle["edgeworker-version"]) + 0.1
+  // parseFloat(bundle["edgeworker-version"])
 ).toFixed(1);
 const content = JSON.stringify(
   { ...bundle, "edgeworker-version": newVersion },

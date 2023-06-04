@@ -7161,7 +7161,7 @@ async function onClientRequest(request) {
     const datafile = await (0,_optimizely_helper__WEBPACK_IMPORTED_MODULE_3__.getDatafile)(_common__WEBPACK_IMPORTED_MODULE_4__.OPTIMIZELY_SDK_KEY);
     if (datafile === "") {
         logAndPrint(`[optimizely] Failed to fetch the datafile, please check the optimizely sdk key`);
-        sendGenericReponse(request, logStash);
+        sendGenericReponse(request, logStash, "Failed to fetch the datafile, please check the optimizely sdk key.");
         return;
     }
     // Creating an optimizely SDK instance.
@@ -7199,10 +7199,13 @@ async function onClientRequest(request) {
     logAndPrint(`[optimizely] Datafile Revision: ${optimizelyConfig.revision}`);
     // --- For a single flag --- //
     const decision = optimizelyUserContext.decide(_common__WEBPACK_IMPORTED_MODULE_4__.EXPERIMENT_EXPERIMENT_KEY);
+    let path;
     if (decision.enabled) {
+        path = "/akamai/b/";
         logAndPrint(`[optimizely] The Flag ${decision.flagKey} was Enabled for the user ${decision.userContext.getUserId()}`);
     }
     else {
+        path = "/akamai/a/";
         logAndPrint(`[optimizely] The Flag ${decision.flagKey} was Not Enabled for the user ${decision.userContext.getUserId()}`);
     }
     request.setVariable(VARIABLE_NAME_EXPERIMENT_KEY, decision.enabled.toString());
@@ -7225,7 +7228,8 @@ async function onClientRequest(request) {
     //     );
     //   }
     // });
-    sendGenericReponse(request, logStash);
+    // sendGenericReponse(request, logStash);
+    request.route({ path });
 }
 /**
  * 1. onClientRequest handler does not allow setting the cookie. We are saving the cookie in a variable and then settig it here.
@@ -7244,12 +7248,20 @@ async function onClientResponse(request, response) {
     const cookie = new cookies__WEBPACK_IMPORTED_MODULE_1__.Cookies();
     cookie.add(_common__WEBPACK_IMPORTED_MODULE_4__.OPTIMIZELY_VISITOR_KEY, userId);
     cookie.add(_common__WEBPACK_IMPORTED_MODULE_4__.EXPERIMENT_EXPERIMENT_KEY, decision);
-    response.setHeader("Set-Cookie", cookie.toHeader());
+    response.setHeader("set-cookie", cookie.toHeader());
+    // const visitorCookie = new SetCookie({
+    //   name: OPTIMIZELY_VISITOR_KEY,
+    //   value: userId,
+    // });
+    // response.setHeader("Set-Cookie", visitorCookie.toHeader());
+    // const decisionCookie = new SetCookie({
+    //   name: EXPERIMENT_EXPERIMENT_KEY,
+    //   value: decision,
+    // });
+    // response.setHeader("Set-Cookie", decisionCookie.toHeader());
 }
-function sendGenericReponse(request, logStash) {
-    request.respondWith(200, { "Content-Type": "text/plain" }, "Welcome to the Optimizely Starter Kit for Akamai Edge Workers. Check log messages in response headers for decision results.\n\n" +
-        "Log Messages:\n" +
-        logStash.join("\n"));
+function sendGenericReponse(request, logStash, message = "Edge worker generic response.") {
+    request.respondWith(200, { "Content-Type": "text/plain" }, `${message}\n\n` + "Log Messages:\n" + logStash.join("\n"));
 }
 
 })();

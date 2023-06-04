@@ -1,7 +1,7 @@
 import { Page, Text, Link } from "@vercel/examples-ui";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import watch from "../public/watch.webp";
+import watch from "../public/watch.png";
 
 type ExperimentData = {
   optimizely_visitor_id: string;
