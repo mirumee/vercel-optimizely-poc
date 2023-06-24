@@ -23,6 +23,7 @@ import {
 
 import { getDatafile, dispatchEvent } from "./optimizely_helper";
 import {
+  COUNTRY_KEY,
   EXPERIMENT_EXPERIMENT_KEY,
   OPTIMIZELY_SDK_KEY,
   OPTIMIZELY_VISITOR_KEY,
@@ -34,6 +35,7 @@ const AKAMAI_CLIENT_ENGINE = "javascript-sdk/akamai-edgeworker";
 const VARIABLE_NAME_USER_ID = `PMUSER_${OPTIMIZELY_VISITOR_KEY}`;
 const VARIABLE_NAME_EXPERIMENT_KEY = `PMUSER_${EXPERIMENT_EXPERIMENT_KEY}`;
 const VARIABLE_NAME_DECISION_EVENT = "PMUSER_OPTIMIZELY_DECISION_EVENT";
+const VARIABLE_USER_NAME_COUNTRY = "PMUSER_USER_COUNTRY";
 
 const SHOULD_DISPATCH_EVENT = false;
 
@@ -181,6 +183,7 @@ export async function onClientRequest(request: EW.IngressClientRequest) {
     VARIABLE_NAME_EXPERIMENT_KEY,
     decision.enabled.toString()
   );
+  request.setVariable(VARIABLE_USER_NAME_COUNTRY, request.userLocation.country);
 
   // Clearing notification listener so that it does not call the hanlder above for all other decisions.
   optimizelyClient.notificationCenter.clearNotificationListeners(
@@ -217,6 +220,7 @@ export async function onClientRequest(request: EW.IngressClientRequest) {
 export async function onClientResponse(request, response) {
   const userId = request.getVariable(VARIABLE_NAME_USER_ID);
   const decision = request.getVariable(VARIABLE_NAME_EXPERIMENT_KEY);
+  const country = request.getVariable(VARIABLE_USER_NAME_COUNTRY);
 
   if (SHOULD_DISPATCH_EVENT) {
     const eventPayload = request.getVariable(VARIABLE_NAME_DECISION_EVENT);
@@ -231,6 +235,7 @@ export async function onClientResponse(request, response) {
   const cookie = new Cookies();
   cookie.add(OPTIMIZELY_VISITOR_KEY, userId);
   cookie.add(EXPERIMENT_EXPERIMENT_KEY, decision);
+  cookie.add(COUNTRY_KEY, country);
   response.setHeader("set-cookie", cookie.toHeader());
 
   // const visitorCookie = new SetCookie({

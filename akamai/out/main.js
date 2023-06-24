@@ -6688,12 +6688,14 @@ async function dispatchEvent(payload) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "COUNTRY_KEY": () => (/* binding */ COUNTRY_KEY),
 /* harmony export */   "EXPERIMENT_EXPERIMENT_KEY": () => (/* binding */ EXPERIMENT_EXPERIMENT_KEY),
 /* harmony export */   "OPTIMIZELY_SDK_KEY": () => (/* binding */ OPTIMIZELY_SDK_KEY),
 /* harmony export */   "OPTIMIZELY_VISITOR_KEY": () => (/* binding */ OPTIMIZELY_VISITOR_KEY)
 /* harmony export */ });
 const OPTIMIZELY_VISITOR_KEY = "optimizely_visitor_id";
 const EXPERIMENT_EXPERIMENT_KEY = "new_page_layout";
+const COUNTRY_KEY = "new_page_layout";
 const OPTIMIZELY_SDK_KEY = "V6gUpRk4RCpfxUYeFLEKe";
 
 
@@ -7101,6 +7103,7 @@ const AKAMAI_CLIENT_ENGINE = "javascript-sdk/akamai-edgeworker";
 const VARIABLE_NAME_USER_ID = `PMUSER_${_common__WEBPACK_IMPORTED_MODULE_4__.OPTIMIZELY_VISITOR_KEY}`;
 const VARIABLE_NAME_EXPERIMENT_KEY = `PMUSER_${_common__WEBPACK_IMPORTED_MODULE_4__.EXPERIMENT_EXPERIMENT_KEY}`;
 const VARIABLE_NAME_DECISION_EVENT = "PMUSER_OPTIMIZELY_DECISION_EVENT";
+const VARIABLE_USER_NAME_COUNTRY = "PMUSER_USER_COUNTRY";
 const SHOULD_DISPATCH_EVENT = false;
 let logStash = [];
 /**
@@ -7209,6 +7212,7 @@ async function onClientRequest(request) {
         logAndPrint(`[optimizely] The Flag ${decision.flagKey} was Not Enabled for the user ${decision.userContext.getUserId()}`);
     }
     request.setVariable(VARIABLE_NAME_EXPERIMENT_KEY, decision.enabled.toString());
+    request.setVariable(VARIABLE_USER_NAME_COUNTRY, request.userLocation.country);
     // Clearing notification listener so that it does not call the hanlder above for all other decisions.
     optimizelyClient.notificationCenter.clearNotificationListeners(_optimizely_optimizely_sdk_dist_optimizely_lite_es__WEBPACK_IMPORTED_MODULE_2__.enums.NOTIFICATION_TYPES.LOG_EVENT);
     // // --- For all flags --- //
@@ -7238,6 +7242,7 @@ async function onClientRequest(request) {
 async function onClientResponse(request, response) {
     const userId = request.getVariable(VARIABLE_NAME_USER_ID);
     const decision = request.getVariable(VARIABLE_NAME_EXPERIMENT_KEY);
+    const country = request.getVariable(VARIABLE_USER_NAME_COUNTRY);
     if (SHOULD_DISPATCH_EVENT) {
         const eventPayload = request.getVariable(VARIABLE_NAME_DECISION_EVENT);
         if (eventPayload) {
@@ -7248,6 +7253,7 @@ async function onClientResponse(request, response) {
     const cookie = new cookies__WEBPACK_IMPORTED_MODULE_1__.Cookies();
     cookie.add(_common__WEBPACK_IMPORTED_MODULE_4__.OPTIMIZELY_VISITOR_KEY, userId);
     cookie.add(_common__WEBPACK_IMPORTED_MODULE_4__.EXPERIMENT_EXPERIMENT_KEY, decision);
+    cookie.add(_common__WEBPACK_IMPORTED_MODULE_4__.COUNTRY_KEY, country);
     response.setHeader("set-cookie", cookie.toHeader());
     // const visitorCookie = new SetCookie({
     //   name: OPTIMIZELY_VISITOR_KEY,
