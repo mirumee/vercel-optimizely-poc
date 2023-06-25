@@ -3,7 +3,7 @@ import { cacheResponse, extractFromCookie } from "../../utils";
 import PageComponent from "../../components/page_component";
 
 export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
-  // cacheResponse(res);
+  cacheResponse(res);
   return {
     props: extractFromCookie(res, req),
   };

@@ -1,4 +1,5 @@
 const withOptimizely = require("./scripts/fetch_optimizely_datafile");
+const { headers } = require("next/headers");
 
 /** @type {import('next').NextConfig} */
 module.exports = withOptimizely({
@@ -12,4 +13,19 @@ module.exports = withOptimizely({
     ignoreBuildErrors: true,
   },
   trailingSlash: true,
+  headers: [
+    {
+      source: "/*",
+      headers: [
+        // {
+        //   key: "Cache-Control",
+        //   value: "s-maxage=0",
+        // },
+        {
+          key: "Edge-Control",
+          value: "public, maxage=120, downstream-ttl=60",
+        },
+      ],
+    },
+  ],
 });
