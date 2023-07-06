@@ -1,11 +1,20 @@
 import { Page, Text, Link } from "@vercel/examples-ui";
-import Image from "next/image";
+import Image, { ImageLoader } from "next/image";
 import { useEffect, useState } from "react";
-import watch from "../public/watch.png";
+import { SALEOR_URL, WATCH_IMG } from "../common";
 
 type ExperimentData = {
   optimizely_visitor_id: string;
   new_page_layout: string;
+};
+
+const akamaiLoader: ImageLoader = ({ src, width, quality }) => {
+  const path = src.replace(SALEOR_URL, "/api/akamai-mock");
+  const params = new URLSearchParams({
+    w: width.toString(),
+    q: (quality ?? 75).toString(),
+  }).toString();
+  return `${path}?${params}`;
 };
 
 export default function PageComponent({
@@ -28,14 +37,15 @@ export default function PageComponent({
   const new_layout = cookies?.new_page_layout === "true";
   const image = (
     <Image
-      src={watch}
+      src={WATCH_IMG}
       alt=""
-      width="1080"
-      height="1080"
+      sizes="100vh"
+      width="1024"
+      height="1024"
       priority
       loading="eager"
-      // Image optimization seems to break when proxying through cloudfront.
-      // unoptimized
+      style={{ margin: "0 auto" }}
+      loader={akamaiLoader}
     />
   );
 

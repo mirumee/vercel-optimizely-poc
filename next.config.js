@@ -5,9 +5,13 @@ const { headers } = require("next/headers");
 module.exports = withOptimizely({
   productionBrowserSourceMaps: true,
   images: {
-    domains: ["images.pexels.com", "d8ymh8ouefoik.cloudfront.net"],
+    domains: [
+      "images.pexels.com",
+      "d8ymh8ouefoik.cloudfront.net",
+      "www-breitling-int.eu.saleor.cloud",
+    ],
     imageSizes: [320, 640, 1024, 2048, 5000],
-    deviceSizes: [320, 640, 1024, 2048, 5000],
+    // deviceSizes: [320, 640, 1024, 2048, 5000],
   },
   typescript: {
     ignoreBuildErrors: true,

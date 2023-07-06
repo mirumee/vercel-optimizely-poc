@@ -34,14 +34,11 @@ export const extractFromCookie = (
 };
 
 export const cacheResponse = (res) => {
-  // res.setHeader(
-  //   "Cache-Control",
-  //   "public, maxage=0, s-maxage=60, stale-while-revalidate=15"
-  // );
+  // res.setHeader("Cache-Control", "max-age=60");
+  res.setHeader("Edge-Control", "public, max-age=60");
   // res.setHeader("Vercel-CDN-Cache-Control", "no-store");
   // res.setHeader("CDN-Cache-Control", "no-store");
   // res.setHeader("Cache-Control", "no-store");
-  // res.setHeader("Edge-Control", "public, maxage=120, downstream-ttl=60");
 };
 
 // Vercel
