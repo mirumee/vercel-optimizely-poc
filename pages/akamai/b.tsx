@@ -4,6 +4,11 @@ import PageComponent from "../../components/page_component";
 
 export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
   cacheResponse(res);
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 10000);
+  });
   return {
     props: extractFromCookie(res, req),
   };

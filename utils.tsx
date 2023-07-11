@@ -33,9 +33,11 @@ export const extractFromCookie = (
   return { optimizely: cookies, datetime };
 };
 
+// !no-store
+
 export const cacheResponse = (res) => {
   // res.setHeader("Cache-Control", "max-age=60");
-  res.setHeader("Edge-Control", "public, max-age=60");
+  res.setHeader("Edge-Control", "!no-store, maxage=1m");
   // res.setHeader("Vercel-CDN-Cache-Control", "no-store");
   // res.setHeader("CDN-Cache-Control", "no-store");
   // res.setHeader("Cache-Control", "no-store");
