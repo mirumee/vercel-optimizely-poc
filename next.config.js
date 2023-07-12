@@ -7,6 +7,7 @@ module.exports = withOptimizely({
   images: {
     domains: [
       "images.pexels.com",
+      "www.breitling.com",
       "d8ymh8ouefoik.cloudfront.net",
       "www-breitling-int.eu.saleor.cloud",
     ],

@@ -1,20 +1,12 @@
 import { Page, Text, Link } from "@vercel/examples-ui";
-import Image, { ImageLoader } from "next/image";
 import { useEffect, useState } from "react";
-import { SALEOR_URL, WATCH_IMG } from "../common";
+import { WATCH_IMG } from "../common";
+import { NextImage } from "./NextImage";
+import watchPng from "../public/watch.png";
 
 type ExperimentData = {
   optimizely_visitor_id: string;
   new_page_layout: string;
-};
-
-const akamaiLoader: ImageLoader = ({ src, width, quality }) => {
-  const path = src.replace(SALEOR_URL, "/api/akamai-mock");
-  const params = new URLSearchParams({
-    w: width.toString(),
-    q: (quality ?? 75).toString(),
-  }).toString();
-  return `${path}?${params}`;
 };
 
 export default function PageComponent({
@@ -36,7 +28,7 @@ export default function PageComponent({
 
   const new_layout = cookies?.new_page_layout === "true";
   const image = (
-    <Image
+    <NextImage
       src={WATCH_IMG}
       alt=""
       sizes="100vh"
@@ -45,7 +37,6 @@ export default function PageComponent({
       priority
       loading="eager"
       style={{ margin: "0 auto" }}
-      loader={akamaiLoader}
     />
   );
 
@@ -135,6 +126,22 @@ export default function PageComponent({
           </Link>
           .
         </Text>
+        <hr />
+        <br />
+        <br />
+        <h2>Loader applied - saleor image</h2>
+        <NextImage src={WATCH_IMG} alt="" height={100} width={200} />
+        <br />
+        <h2> Loader not applied - external image</h2>
+        <NextImage
+          src="https://www.breitling.com/media/image/2/cfg_site_hd/asset-version-67dca8c5fa/ab0138241c1p1-navitimer-b01-chronograph-43-soldier.webp"
+          alt=""
+          height={100}
+          width={200}
+        />
+        <br />
+        <h2>Loader not applied - local image</h2>
+        <NextImage src={watchPng} alt="" height={100} width={200} />
       </section>
     </Page>
   );

@@ -33,11 +33,11 @@ export const extractFromCookie = (
   return { optimizely: cookies, datetime };
 };
 
-// !no-store
+// !no-store - Akamai by default has a rule to no store everything with no extensions like pages paths. So to enable the caching behaviour we have to negate it and then pass the proper cache headers.
 
 export const cacheResponse = (res) => {
   // res.setHeader("Cache-Control", "max-age=60");
-  res.setHeader("Edge-Control", "!no-store, maxage=1m");
+  res.setHeader("Edge-Control", "!no-store, maxage=1m"); // Remember about time period suffixes
   // res.setHeader("Vercel-CDN-Cache-Control", "no-store");
   // res.setHeader("CDN-Cache-Control", "no-store");
   // res.setHeader("Cache-Control", "no-store");
