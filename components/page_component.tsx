@@ -74,7 +74,7 @@ export default function PageComponent({
           )}
           <br />
           <br />
-          <b>How it works: (am I cached?)</b>
+          <b>How it works:</b>
           <br />
           This example displays two variants of page layouts to the users. It
           uses Optimizely feature flag in the Vercel Middleware to determine the
