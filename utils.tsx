@@ -37,7 +37,10 @@ export const extractFromCookie = (
 
 export const cacheResponse = (res) => {
   // res.setHeader("Cache-Control", "max-age=60");
-  res.setHeader("Edge-Control", "!no-store, maxage=1m"); // Remember about time period suffixes
+  res.setHeader(
+    "Edge-Control",
+    `!no-store, maxage=${process.env.CACHE_MAX_AGE}`
+  ); // Remember about time period suffixes
   // res.setHeader("Vercel-CDN-Cache-Control", "no-store");
   // res.setHeader("CDN-Cache-Control", "no-store");
   // res.setHeader("Cache-Control", "no-store");

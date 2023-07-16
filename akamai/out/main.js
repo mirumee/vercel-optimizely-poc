@@ -6691,12 +6691,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "COUNTRY_KEY": () => (/* binding */ COUNTRY_KEY),
 /* harmony export */   "EXPERIMENT_EXPERIMENT_KEY": () => (/* binding */ EXPERIMENT_EXPERIMENT_KEY),
 /* harmony export */   "OPTIMIZELY_SDK_KEY": () => (/* binding */ OPTIMIZELY_SDK_KEY),
-/* harmony export */   "OPTIMIZELY_VISITOR_KEY": () => (/* binding */ OPTIMIZELY_VISITOR_KEY)
+/* harmony export */   "OPTIMIZELY_VISITOR_KEY": () => (/* binding */ OPTIMIZELY_VISITOR_KEY),
+/* harmony export */   "SALEOR_URL": () => (/* binding */ SALEOR_URL),
+/* harmony export */   "WATCH_IMG": () => (/* binding */ WATCH_IMG)
 /* harmony export */ });
 const OPTIMIZELY_VISITOR_KEY = "optimizely_visitor_id";
 const EXPERIMENT_EXPERIMENT_KEY = "new_page_layout";
 const COUNTRY_KEY = "new_page_layout";
 const OPTIMIZELY_SDK_KEY = "V6gUpRk4RCpfxUYeFLEKe";
+const WATCH_IMG = "https://www-breitling-int.eu.saleor.cloud/media/thumbnails/products/ab01762a1l1x1-top-time-b01-ford-mustang-soldier_b90db6fe_thumbnail_1024.avif";
+const SALEOR_URL = "https://www-breitling-int.eu.saleor.cloud";
 
 
 /***/ }),
@@ -7154,6 +7158,9 @@ function logAndPrint(message) {
  */
 async function onClientRequest(request) {
     logStash = [];
+    if (request.path !== "/akamai/") {
+        return;
+    }
     let cookies = new cookies__WEBPACK_IMPORTED_MODULE_1__.Cookies(request.getHeader("Cookie"));
     // Fetch user Id from the cookie if available to make sure that a returning user from same browser session always sees the same variation.
     const userId = cookies.get(_common__WEBPACK_IMPORTED_MODULE_4__.OPTIMIZELY_VISITOR_KEY) || generateRandomUserId();
@@ -7240,6 +7247,9 @@ async function onClientRequest(request) {
  * 2. onClientRequest handler does not allow more than one http subrequests. We are dispatching the optimizely logx event from here.
  */
 async function onClientResponse(request, response) {
+    if (request.path !== "/akamai/") {
+        return;
+    }
     const userId = request.getVariable(VARIABLE_NAME_USER_ID);
     const decision = request.getVariable(VARIABLE_NAME_EXPERIMENT_KEY);
     const country = request.getVariable(VARIABLE_USER_NAME_COUNTRY);

@@ -93,6 +93,11 @@ function logAndPrint(message) {
  */
 export async function onClientRequest(request: EW.IngressClientRequest) {
   logStash = [];
+
+  if (request.path !== "/akamai/") {
+    return;
+  }
+
   let cookies = new Cookies(request.getHeader("Cookie"));
 
   // Fetch user Id from the cookie if available to make sure that a returning user from same browser session always sees the same variation.
@@ -218,6 +223,10 @@ export async function onClientRequest(request: EW.IngressClientRequest) {
  * 2. onClientRequest handler does not allow more than one http subrequests. We are dispatching the optimizely logx event from here.
  */
 export async function onClientResponse(request, response) {
+  if (request.path !== "/akamai/") {
+    return;
+  }
+
   const userId = request.getVariable(VARIABLE_NAME_USER_ID);
   const decision = request.getVariable(VARIABLE_NAME_EXPERIMENT_KEY);
   const country = request.getVariable(VARIABLE_USER_NAME_COUNTRY);
