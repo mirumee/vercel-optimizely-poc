@@ -41,6 +41,10 @@ export const cacheResponse = (res) => {
     "Edge-Control",
     `!no-store, maxage=${process.env.CACHE_MAX_AGE}`
   ); // Remember about time period suffixes
+  res.setHeader(
+    "Pragma",
+    "akamai-x-cache-on, akamai-x-cache-remote-on, akamai-x-check-cacheable, akamai-x-get-cache-key, akamai-x-get-extracted-values"
+  );
   // res.setHeader("Vercel-CDN-Cache-Control", "no-store");
   // res.setHeader("CDN-Cache-Control", "no-store");
   // res.setHeader("Cache-Control", "no-store");
