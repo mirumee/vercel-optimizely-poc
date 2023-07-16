@@ -68,6 +68,8 @@ export default function PageComponent({
               New layout enabled: <b>{cookies?.new_page_layout}</b>
               <br />
               Last sync: <b>{datetime}</b>
+              <br />
+              Cache maxage: <b>{process.env.NEXT_PUBLIC_CACHE_MAX_AGE}</b>
             </>
           )}
           <br />

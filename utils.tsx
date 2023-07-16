@@ -39,7 +39,7 @@ export const cacheResponse = (res) => {
   // res.setHeader("Cache-Control", "max-age=60");
   res.setHeader(
     "Edge-Control",
-    `!no-store, maxage=${process.env.CACHE_MAX_AGE}`
+    `!no-store, maxage=${process.env.NEXT_PUBLIC_CACHE_MAX_AGE}`
   ); // Remember about time period suffixes
   res.setHeader(
     "Pragma",
